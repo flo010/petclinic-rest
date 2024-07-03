@@ -26,6 +26,7 @@ import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -49,20 +50,28 @@ public class PetRestController implements PetsApi {
         this.petMapper = petMapper;
     }
 
-    @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
-    @Override
-    public ResponseEntity<PetDto> getPet(Integer petId) {
-        PetDto pet = petMapper.toPetDto(this.clinicService.findPetById(petId));
-        if (pet == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(pet, HttpStatus.OK);
-    }
+    //@PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
+    //@Override
+    //public ResponseEntity<PetDto> getPet(Integer petId) {
+      //  System.out.println("Im getting called");
+     //   PetDto pet = petMapper.toPetDto(this.clinicService.findPetById(petId));
+   //     if (pet == null) {
+     //       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+   //     }
+     //   return new ResponseEntity<>(pet, HttpStatus.OK);
+   // }
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
-    public ResponseEntity<List<PetDto>> listPets() {
-        List<PetDto> pets = new ArrayList<>(petMapper.toPetsDto(this.clinicService.findAllPets()));
+    public ResponseEntity<List<PetDto>> listPets(String name) {
+        System.out.println("Now Im getting called");
+        List<PetDto> pets;
+        if(name != null) {
+            pets = new ArrayList<>(petMapper.toPetsDto(this.clinicService.findPetsByName(name)));
+        }
+        else{
+            pets = new ArrayList<>(petMapper.toPetsDto(this.clinicService.findAllPets()));
+        }
         if (pets.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

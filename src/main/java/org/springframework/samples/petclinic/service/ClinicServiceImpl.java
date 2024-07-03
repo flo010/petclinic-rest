@@ -309,4 +309,10 @@ public class ClinicServiceImpl implements ClinicService {
         }
         return petType;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Pet> findPetsByName(String name) throws DataAccessException {
+        return petRepository.findByName(name);
+    }
 }

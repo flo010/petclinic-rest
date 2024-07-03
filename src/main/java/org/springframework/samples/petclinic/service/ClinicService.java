@@ -26,6 +26,7 @@ import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Mostly used as a facade so all controllers have a single point of entry
@@ -69,4 +70,7 @@ public interface ClinicService {
     List<Specialty> findSpecialtiesByNameIn(Set<String> names) throws DataAccessException;
 
     PetType findPetTypeByName(String name) throws DataAccessException;
+
+    @Transactional(readOnly = true)
+    Collection<Pet> findPetsByName(String name) throws DataAccessException;
 }

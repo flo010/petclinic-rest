@@ -81,4 +81,10 @@ public class JpaPetRepositoryImpl implements PetRepository {
 		}
 	}
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Collection<Pet> findByName(String name) {
+        return this.em.createQuery("SELECT pet FROM Pet pet where name="+ name).getResultList();
+    }
+
 }

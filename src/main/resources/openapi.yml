@@ -771,6 +771,14 @@ paths:
       operationId: listPets
       summary: Lists pet
       description: Returns an array of pet .
+      parameters:
+        - name: name
+          in: query
+          description: name.
+          required: false
+          schema:
+            type: string
+            example: Davis
       responses:
         200:
           description: Pet types found and returned.
